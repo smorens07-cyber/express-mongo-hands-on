@@ -2,10 +2,41 @@
 <%- include("header") -%>
 
   <div class="box" id="heading">
-    <!-- Outputs the listTitle variable where the list's title is displayed in a header tag. -->
+    <!-- Título de la lista actual -->
     <h1>
       <%= listTitle %>
     </h1>
+
+    <!-- DESPLEGABLE DINÁMICO DE LISTAS -->
+    <% if (typeof allLists !=='undefined' && allLists.length> 0) { %>
+      <div style="padding-bottom: 18px; text-align: center;">
+
+        <label for="listNav"
+          style="color: #ffffff; font-size: 13.5px; display: block; margin-bottom: 6px; font-weight: 500;">
+          📋 Listas tareas de Sara Moreno Sáez:
+        </label>
+
+        <select id="listNav"
+          onchange="if(this.value) window.location.href = (this.value === 'Today' ? '/' : '/' + encodeURIComponent(this.value));"
+          style="padding: 7px 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; background: #ffffff; color: #333; cursor: pointer; outline: none;">
+
+          <option value="">-- Selecciona o cambia de lista --</option>
+
+          <option value="Today" <%=listTitle==='Today' ? 'selected' : '' %>>
+            📅 Today
+          </option>
+
+          <% allLists.forEach(function(l) { %>
+            <% if (l.name !=='Today' ) { %>
+              <option value="<%= l.name %>" <%=listTitle===l.name ? 'selected' : '' %>>
+                📌 <%= l.name %>
+              </option>
+              <% } %>
+                <% }); %>
+
+        </select>
+      </div>
+      <% } %>
   </div>
 
   <div class="box">
@@ -23,11 +54,11 @@
           <!-- This paragraph displays the name of the current item in the list. -->
           <p>
             <%=item.name%>
-            <% if (typeof item.priority_name !== 'undefined' && item.priority_name) { %>
-              <span class="badge" style="background-color: <%= item.priority_color %>;">
-                <%= item.priority_name %>
-              </span>
-            <% } %>
+              <% if (typeof item.priority_name !=='undefined' && item.priority_name) { %>
+                <span class="badge" style="background-color: <%= item.priority_color %>;">
+                  <%= item.priority_name %>
+                </span>
+                <% } %>
           </p>
         </div>
 
@@ -43,17 +74,20 @@
           <!-- An input field for the user to type a new item name. -->
           <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
 
-          <% if (typeof priorities !== 'undefined' && priorities.length > 0) { %>
+          <% if (typeof priorities !=='undefined' && priorities.length> 0) { %>
             <select name="priorityId" class="priority-select" title="Selecciona urgencia">
               <option value="">⚪ Sin urgencia</option>
               <% priorities.forEach(function(p){ %>
-                <option value="<%= p.id %>"><%= p.icon %> <%= p.name %></option>
-              <% }) %>
+                <option value="<%= p.id %>">
+                  <%= p.icon %>
+                    <%= p.name %>
+                </option>
+                <% }) %>
             </select>
-          <% } %>
+            <% } %>
 
-          <!-- A submit button for the form to add a new item to the list. The value of the button is set to the listTitle. -->
-          <button type="submit" name="list" value="<%= listTitle %>">+</button>
+              <!-- A submit button for the form to add a new item to the list. The value of the button is set to the listTitle. -->
+              <button type="submit" name="list" value="<%= listTitle %>">+</button>
         </form>
   </div>
 

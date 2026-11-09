@@ -28,7 +28,7 @@ app.use(express.static("public"));
 // Parámetros de conexión local a MySQL (puedes sobreescribirlos con variables de entorno)
 const DB_HOST = process.env.DB_HOST || "localhost";
 const DB_USER = process.env.DB_USER || "root";
-const DB_PASSWORD = process.env.DB_PASSWORD || "Pepito123";
+const DB_PASSWORD = process.env.DB_PASSWORD || "Montaña01*";
 const DB_NAME = process.env.DB_NAME || "todolistDB";
 const DB_PORT = process.env.DB_PORT || 3306;
 
